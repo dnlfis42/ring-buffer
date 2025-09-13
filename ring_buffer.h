@@ -157,6 +157,12 @@ public:
 		return len;
 	}
 
+	void clear() noexcept
+	{
+		read_pos_ = 0;
+		write_pos_ = 0;
+	}
+
 private:
 	char* buff_;
 	size_t read_pos_ = 0; // head
