@@ -7,12 +7,6 @@ class RingBuffer
 private:
 	static constexpr size_t MAX_SIZE = 20000;
 
-private:
-	char* buff_;
-	size_t read_pos_ = 0; // head
-	size_t write_pos_ = 0; // tail
-	size_t capacity_; // 정확한 크기는 capacity_ + 1
-
 public:
 	RingBuffer(size_t capacity = MAX_SIZE)
 	{
@@ -162,4 +156,10 @@ public:
 
 		return len;
 	}
+
+private:
+	char* buff_;
+	size_t read_pos_ = 0; // head
+	size_t write_pos_ = 0; // tail
+	size_t capacity_; // 정확한 크기는 capacity_ + 1
 };
