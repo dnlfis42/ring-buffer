@@ -8,9 +8,9 @@ private:
 	static constexpr size_t MAX_SIZE = 20000;
 
 public:
-	RingBuffer(size_t capacity = MAX_SIZE)
+	RingBuffer(size_t len = MAX_SIZE)
 	{
-		capacity_ = capacity < MAX_SIZE ? capacity : MAX_SIZE;
+		capacity_ = len < MAX_SIZE ? len : MAX_SIZE;
 		buff_ = new char[capacity_ + 1];
 	}
 
