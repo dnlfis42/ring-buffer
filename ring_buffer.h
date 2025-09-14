@@ -20,11 +20,13 @@ public:
 	}
 
 public:
+	// tail
 	char* write_pos() const noexcept
 	{
 		return buff_ + write_pos_;
 	}
 
+	// head
 	char* read_pos() const noexcept
 	{
 		return buff_ + read_pos_;
@@ -45,16 +47,19 @@ public:
 		return MAX_SIZE;
 	}
 
+	// 사용량
 	size_t size() const noexcept
 	{
 		return (capacity_ + 1 - read_pos_ + write_pos_) % (capacity_ + 1);
 	}
 
+	// 가용량
 	size_t available() const noexcept
 	{
-		return (capacity_ + read_pos_ - write_pos_) % capacity_;
+		return (capacity_ + read_pos_ - write_pos_) % (capacity_ + 1);
 	}
 
+	// move_tail
 	size_t move_write_pos(size_t len) noexcept
 	{
 		size_t remaining = available();
@@ -65,6 +70,7 @@ public:
 		return move_size;
 	}
 
+	// move_head
 	size_t move_read_pos(size_t len) noexcept
 	{
 		size_t data_size = size();
@@ -75,7 +81,8 @@ public:
 		return move_size;
 	}
 
-	size_t direct_write_size() const noexcept // enqueue_size
+	// direct_enqueue_size
+	size_t direct_write_size() const noexcept
 	{
 		size_t true_read_pos = (capacity_ + read_pos_) % (capacity_ + 1);
 		size_t limit = true_read_pos < write_pos_ ? (capacity_ + 1) : true_read_pos;
@@ -83,14 +90,16 @@ public:
 		return limit - write_pos_;
 	}
 
-	size_t direct_read_size() const noexcept // dequeue_size
+	// direct_dequeue_size
+	size_t direct_read_size() const noexcept
 	{
-		size_t diff = write_pos_ - read_pos_;
+		size_t wp = write_pos_;
 
-		return diff >= 0 ? diff : capacity_ + 1 - read_pos_;
+		return wp >= read_pos_ ? wp - read_pos_ : capacity_ + 1 - read_pos_;
 	}
 
-	size_t write(const char* src, size_t len) // enqueue
+	// enqueue
+	size_t write(const char* src, size_t len)
 	{
 		if (available() < len)
 		{
@@ -113,7 +122,8 @@ public:
 		return len;
 	}
 
-	size_t read(char* dest, size_t len) // dequeue
+	// dequeue
+	size_t read(char* dest, size_t len)
 	{
 		if (size() < len)
 		{
